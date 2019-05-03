@@ -1,0 +1,16 @@
+actor: ApiTester
+modules:
+    enabled:
+        - \Helper\Api
+        - Asserts
+        - REST:
+            url: https://restcountries.eu/rest/v2
+            depends: PhpBrowser
+            part: Json
+
+# This is just an example and we are using some public URLs which we
+# can't configure for coverage reporting, so just deactivate coverage
+# report for this suite
+coverage:
+  enabled: false
+

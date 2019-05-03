@@ -1,0 +1,16 @@
+version: '2'
+services:
+    app:
+        image: phpstorm/php-73-cli-xdebug-27
+        volumes:
+            - ./:/src
+        working_dir: /src
+        depends_on:
+          - selenium
+    selenium:
+        image: selenium/standalone-chrome-debug:latest
+    composer:
+        image: composer
+        volumes:
+            - ./:/src
+        working_dir: /src

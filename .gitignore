@@ -1,0 +1,5 @@
+/example/composer.lock
+/example/vendor
+/example/tests/_output/*
+/example/tests/_support/_generated/*
+!.gitkeep

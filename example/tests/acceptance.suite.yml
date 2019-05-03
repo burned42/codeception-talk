@@ -1,0 +1,20 @@
+# Codeception Test Suite Configuration
+#
+# Suite for acceptance tests.
+# Perform tests in browser using the WebDriver or PhpBrowser.
+# If you need both WebDriver and PHPBrowser tests - create a separate suite.
+
+actor: AcceptanceTester
+modules:
+    enabled:
+        - WebDriver:
+            url: https://www.google.com/
+            host: selenium
+            browser: chrome
+        - \Helper\Acceptance
+
+# This is just an example and we are using some public URLs which we
+# can't configure for coverage reporting, so just deactivate coverage
+# report for this suite
+coverage:
+    enabled: false
