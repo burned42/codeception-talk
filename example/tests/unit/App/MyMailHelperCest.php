@@ -4,6 +4,7 @@ namespace App;
 
 use Codeception\Example;
 use InvalidArgumentException;
+use UnitTester;
 
 class MyMailHelperCest
 {
