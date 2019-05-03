@@ -1,49 +1,1055 @@
 <!doctype html>
-<html>
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<title>reveal.js</title>
+        <title>reveal.js</title>
 
-		<link rel="stylesheet" href="css/reset.css">
-		<link rel="stylesheet" href="css/reveal.css">
-		<link rel="stylesheet" href="css/theme/black.css">
+        <link rel="stylesheet" href="css/reset.css">
+        <link rel="stylesheet" href="css/reveal.css">
+        <link rel="stylesheet" href="css/theme/moon.css">
+        <link rel="stylesheet" href="css/custom.css">
 
-		<!-- Theme used for syntax highlighting of code -->
-		<link rel="stylesheet" href="lib/css/monokai.css">
+        <!-- Theme used for syntax highlighting of code -->
+        <link rel="stylesheet" href="lib/css/dracula.css">
 
-		<!-- Printing and PDF exports -->
-		<script>
-			var link = document.createElement( 'link' );
-			link.rel = 'stylesheet';
-			link.type = 'text/css';
-			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
-			document.getElementsByTagName( 'head' )[0].appendChild( link );
-		</script>
-	</head>
-	<body>
-		<div class="reveal">
-			<div class="slides">
-				<section>Slide 1</section>
-				<section>Slide 2</section>
-			</div>
-		</div>
+        <!-- Printing and PDF exports -->
+        <script>
+            let link = document.createElement( 'link' );
+            link.rel = 'stylesheet';
+            link.type = 'text/css';
+            link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+            document.getElementsByTagName( 'head' )[0].appendChild( link );
+        </script>
+    </head>
+    <body>
+        <div class="reveal">
+            <div class="slides">
+                <section data-background="images/codeception.svg" data-background-size="contain">
+                    <h4 style="color:lightgrey">Testing with</h4>
+                    <br>
+                    <h1>Codeception</h1>
+                    <aside class="notes" data-markdown>
+                        - Testing your PHP code with Codeception!
+                        - it's been a while since we had our last talk about software testing
+                          - but it's important, so let's bring it back to our minds
+                        - maybe we can even get someone interested in the topic who until now didn't write tests at all
+                    </aside>
+                </section>
+                <section>
+                    <h2>Agenda</h2>
+                    <ul>
+                        <li>What is Codeception?</li>
+                        <li>What can I do with it?</li>
+                        <li>How to setup</li>
+                        <li>... and configure?</li>
+                        <li>Hands on coding challenge</li>
+                    </ul>
+                </section>
+                <section>
+                    <h2>Tests, but why and how?</h2>
+                    <ul>
+                        <li class="fragment">We all make mistakes.<br>&#8658; we want tests</li>
+                        <li class="fragment"><span class="fragment strike">"I click around in the browser after code changes"</span>
+                            <span class="fragment"><br>... that's not what I meant</span>
+                        <li class="fragment">we want to write test files</li>
+                        <li class="fragment">and run those tests after every change</li>
+                    </ul>
+                    <br><br>
+                    <h6 class="fragment fade-up">&#8658; We want automated tests!</h6>
+                    <aside class="notes" data-markdown>
+                        - we should test our code in *some* way
+                          - because we all make mistakes
+                        - -> so we want tests
+                        - -> "I click around in the browser after code changes"
+                          - -> -> no, not what I meant
+                        - -> write down the tests in form of code
+                          - instead of clicking around your application after every small change
+                        - write down once
+                          - -> just re-run the tests after a code change
+                          - and see if you broke something (regression testing)
+                        - -> we want automated tests!
+                    </aside>
+                </section>
+                <section>
+                    <section data-transition="none">
+                        <h2>Ok, tell me more! Why Codeception?</h2>
+                        <ul>
+                            <li class="fragment">"Elegant and Efficient Testing for PHP"</li>
+                            <li class="fragment">more than just PHPUnit<br>&#8658; All-In-One solution</li>
+                            <li class="fragment">since 2011</li>
+                            <li class="fragment">CLI tool</li>
+                            <li class="fragment">easy debugging</li>
+                        </ul>
+                        <aside class="notes" data-markdown>
+                            - -> "Elegant and Efficient Testing for PHP" ~ codeception.com
+                            - Why not just PHPUnit?
+                              - Codeception builds on top of PHPUnit
+                                - it's also written in PHP itself
+                                - PHPUnit -> coverage report
+                              - it adds some nice helpers to simplify the most common tasks
+                              - can do much more than just unit tests
+                                - -> all-in-one solution
+                            - -> exists since 2011
+                              - active development since then
+                              - with regular releases
+                              - so it's not the next cool shit that will be gone tomorrow
+                              - works with PHP >= 5.6 (everyone should be able to test his code)
+                            - -> easy to use cli tool
+                              - for bootstrapping, creating test classes/suites, running tests, etc.
+                            - -> easy to debug (codecept run -vvv --debug)
+                        </aside>
+                    </section>
+                    <section data-transition="none">
+                        <h2>Ok, tell me more! Why Codeception?</h2>
+                        <ul>
+                            <li>test suites for different types of tests</li>
+                            <li class="fragment">also supports BDD with Gherkin</li>
+                            <li class="fragment">helpers for most common tasks</li>
+                        </ul>
+                        <br><br><br><br>
+                        <aside class="notes" data-markdown>
+                            - tests are grouped into different test suites:
+                              - unit
+                              - functional
+                              - acceptance
+                              - api
+                            - you don't have to write PHP for those tests
+                              - -> you can also use BDD with gherkin
+                            - -> nice helpers to achieve the most common things
+                        </aside>
+                    </section>
+                    <section>
+                        <h2>Codeception helpers</h2>
+                        <ul>
+                            <li><pre><code class="php">$I->wantTo('test the code')</code></pre>
+                                <ul class="fragment">
+                                    <li><code class="php">UnitTester $I</code></li>
+                                    <li><code class="php">ApiTester $I</code></li>
+                                    <li>...<br>
+                                        <ul>
+                                            <li class="fragment">extendable via modules</li>
+                                            <li class="fragment">extendable via own methods</li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="fragment"><pre><code class="php">Codeception\Util\HttpCode::OK</code></pre></li>
+                            <li class="fragment"><pre><code class="php">Codeception\Util\Stub::make(MyApi::class)</code></pre></li>
+                        </ul>
+                        <aside class="notes" data-markdown>
+                            - let me introduce to you $I
+                              - $I->wantTo('test this code')
+                              - -> UnitTester/ApiTester/... -> the 'person' that performs the tests
+                                - different methods suitable for the use case
+                                - -> extendable with modules
+                                  - for DB handling or your framework
+                                - -> extendable by you: $I->amLoggedInAsAdmin()
+                            - -> Codeception\Util\HttpCode -> use names like 'OK' or 'NOT_FOUND' instead
+                            of 200 or 404 in the tests
+                            - -> Codeception\Util\Stub for mocking things
+                              - make()
+                              - construct()
+                              - configure what the methods should return (also in consecutive calls)
+                                - or if they should even be called or not
+                            - Ok, so now you know what Codeception can do for you
+                              - so now let's test just all the things, right?
+                        </aside>
+                    </section>
+                </section>
+                <section>
+                    <section>
+                        <img src="images/test_all_the_things.jpg" alt="We want to test all the things!">
+                        <aside class="notes" data-markdown>
+                            - there are different types of tests
+                            - Codeception has different test suites for them
+                            - let's start with unit tests
+                        </aside>
+                    </section>
+                    <section>
+                        <h2><code class="php">UnitTester $I</code></h2>
+                        <ul>
+                            <li><pre><code class="php">$I->wantTo('Test only one unit of code')</code></pre></li>
+                            <li class="fragment">you can reuse your old PHPUnit tests</li>
+                            <li class="fragment">module 'Asserts'
+                                <pre class="fragment"><code class="php" data-trim data-noescape>
+                                    $I->assertTrue($unit->isWorking());
+                                    $I->assertContains('hello', $greeting);
+                                    $I->assertEquals(5, $unit->getCount());
+                                </code></pre>
+                            </li>
+                        </ul>
+                        <aside class="notes" data-markdown>
+                            - $I->wantTo('Test only one unit of code')
+                            - should only test small parts of the code
+                              - tests run pretty fast
+                            - -> If you already have existing PHPUnit tests you can just copy them and let
+                              Codeception run them
+                            - -> module 'Asserts' -> enabled by default
+                              - pulls in some assertion methods from PHPUnit
+                              - -> examples
+                        </aside>
+                    </section>
+                    <section>
+                        <blockquote>"Talk is cheap. Show me the code."</blockquote>
+                        <span class="fragment">~ Linus Torvalds</span>
+                        <aside class="notes" data-markdown>
+                            "Talk is cheap. Show me the code."
+                            - -> ~ Linus Torvalds
+                        </aside>
+                    </section>
+                    <section>
+                        <pre class="wide"><code class="php stretch" data-trim>
+                            public function testConstructor(UnitTester $I)
+                            {
+                                $exception = new \Exception();
 
-		<script src="js/reveal.js"></script>
+                                $I->assertInstanceOf(\Exception::class, $exception);
+                            }
+                        </code></pre>
+                        <pre class="fragment wide"><code class="php stretch" data-trim>
+                            public function testGetMessage(UnitTester $I)
+                            {
+                                $message = 'foobar';
 
-		<script>
-			// More info about config & dependencies:
-			// - https://github.com/hakimel/reveal.js#configuration
-			// - https://github.com/hakimel/reveal.js#dependencies
-			Reveal.initialize({
-				dependencies: [
-					{ src: 'plugin/markdown/marked.js' },
-					{ src: 'plugin/markdown/markdown.js' },
-					{ src: 'plugin/notes/notes.js', async: true },
-					{ src: 'plugin/highlight/highlight.js', async: true }
-				]
-			});
-		</script>
-	</body>
+                                $exception = new \Exception($message);
+
+                                $I->assertEquals($message, $exception->getMessage());
+                            }
+                        </code></pre>
+                        <aside class="notes" data-markdown>
+                            - for now you don't have to worry about the methods themself
+                            - or where to put them
+                            - we'll come to that part later
+                            - simple check that the constructor is working without an exception
+                            - -> another simple check of a method
+                        </aside>
+                    </section>
+                    <section>
+                        <pre class="wide"><code class="php stretch" data-trim>
+                            /**
+                             * @example ["de", "male", "Doe", "Sehr geehrter Herr Doe,"]
+                             * @example ["en", "male", "Doe", "Dear Mr Doe"]
+                             * @example ["de", "female", "Doe", "Sehr geehrte Frau Doe,"]
+                             * @example ["en", "female", "Doe", "Dear Ms Doe"]
+                             */
+                            public function testGetSalutation(UnitTester $I, Example $example)
+                            {
+                                $salutation = MyMailHelper::getSalutation(
+                                    $example[0],
+                                    $example[1],
+                                    $example[2]
+                                );
+
+                                $I->assertEquals($example[3], $salutation);
+                            }
+                        </code></pre>
+                        <aside class="notes" data-markdown>
+                            - @example annotations
+                              - as an alternative to PHPUnit's @dataProvider
+                        </aside>
+                    </section>
+                    <section>
+                        <pre class="wide"><code class="php stretch" data-trim>
+                            public function testExceptionOnInvalidLanguage(UnitTester $I)
+                            {
+                                // Give it either just a class name
+                                $I->expectThrowable(
+                                    \InvalidArgumentException::class,
+                                    function () {
+                                        MyMailHelper::getSalutation('foobar', 'male', 'Test');
+                                    }
+                                );
+
+                                // Or an instance of a Throwable
+                                $I->expectThrowable(
+                                    new \InvalidArgumentException('language not implemented'),
+                                    function () {
+                                        MyMailHelper::getSalutation('foobar', 'male', 'Test');
+                                    }
+                                );
+                            }
+                        </code></pre>
+                    </section>
+                </section>
+                <section>
+                    <section>
+                        <h2>Am I done now?</h2>
+                        <aside class="notes" data-markdown>
+                            - so now you have some unit tests
+                              - but you only have unit tests
+                            - but I think you all have seen some of those already
+                        </aside>
+                    </section>
+                    <section>
+                        <h2>So you think you're done?</h2>
+                        <img src="images/2u0i-garbage.gif" style="float: right; width: 50%" alt="2 unit tests 0 integration tests, garbage can under hand dryer">
+                        <img src="images/2u0i-door2.gif" style="float: bottom; width: 40%" alt="2 unit tests 0 integration tests, malfunctioning door lock">
+                        <img src="images/2u0i-window.gif" style="float: top; width: 40%" alt="2 unit tests 0 integration tests, two windows at right angles to another both can't be opened">
+                        <aside class="notes" data-markdown>
+                            - this is basically what it looks like if you just have unit tests
+                              - but 0 integration tests
+                            - and if you don't spot these problems during development
+                        </aside>
+                    </section>
+                    <section>
+                        <h2>Things you don't want to experience in production environment</h2>
+                        <img src="images/2u0i-truck_vs_bridge.gif" alt="crash into bridge, not enough tests">
+                        <aside class="notes" data-markdown>
+                            - crash on production
+                        </aside>
+                    </section>
+                    <section>
+                        <h2>Don't settle down on unit tests</h2>
+                        <ul>
+                            <li class="fragment">add some integration tests<br>
+                                <span class="fragment">
+                                    <span>&#8658; into unit test suite</span><br />
+                                    <span>&#8658; or into separate test suite</span>
+                                </span>
+                            </li>
+                            <li class="fragment">make use of those Codeception modules</li>
+                        </ul>
+                        <aside class="notes" data-markdown>
+                            - -> that is why you should also add some integration tests
+                              - to ensure your classes also work together like expected
+                              - so you will never build or experience something like in those pictures
+                            - -> Codeception doc suggests putting those into unit suite
+                              - you could also create a separate test suite for that
+                            - -> maybe also add the DB module to ensure integration with your DB
+                            - or maybe the Symfony/whatever module to involve your framework
+                        </aside>
+                    </section>
+                </section>
+                <section>
+                    <section data-transition="none">
+                        <h2><nobr><code class="php">FunctionalTester $I</code></nobr></h2>
+                        <ul class="stretch">
+                            <li><pre><code class="php">$I->wantTo('make sure the application works as expected')</code></pre></li>
+                            <li class="fragment">generally a bit slower than unit tests</li>
+                            <li class="fragment">no running webserver required
+                                <ul>
+                                    <li class="fragment">fakes <code class="php">$_REQUEST</code>/<code class="php">$_GET</code>/<code class="php">$_POST</code></li>
+                                    <li class="fragment">may not work with all types of applications</li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <br><br>
+                        <aside class="notes" data-markdown>
+                            - $I->wantTo('make sure your application/classes work as expected')
+                            - those tests will most likely also include some database interaction
+                              - -> and thus may be a bit slower than plain unit tests
+                            - -> no webserver required
+                              - -> it just sets the $_REQUEST/$_GET/$_POST variables and executes our application with this input
+                              - so we can also get detailed error messages if necessary since it directly executes the code
+                              - -> but it also depends on your application if this testing method will work
+                                - e.g. because you maybe try to work with session data or HTTP headers that will not be there
+                                - just know that there are indeed some limitations for this test type
+                        </aside>
+                    </section>
+                    <section data-transition="none">
+                        <h2><nobr><code class="php">FunctionalTester $I</code></nobr></h2>
+                        <ul class="stretch">
+                            <li>modules:
+                                <ul>
+                                    <li>For your framework (Symfony/Laravel/Silex/...)</li>
+                                    <li class="fragment">DB (populate/cleanup)</li>
+                                    <li class="fragment">Doctrine:
+                                        <ul>
+                                            <li class="fragment"><pre><code class="php">$I->haveInRepository(Client::class, ['name' => $testName])</code></pre></li>
+                                            <li class="fragment"><pre><code class="php">$I->seeInRepository(Client::class, ['id' => $testId])</code></pre></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <aside class="notes" data-markdown>
+                            - Codeception comes with modules for many frameworks
+                              - like: AngularJS, Laravel, Phalcon, Silex, Zend Framework, or Symfony
+                            - for that you may need some database to interact with
+                              - -> 'DB' module:
+                                - can populate your DB with a predefined SQL dump
+                                - and cleanup after each test
+                              - -> maybe you are using Doctrine? There is a module for it
+                                - -> $I->haveInRepository() (insert into ... to prepare special data for the
+                                  test)
+                                - -> $I->seeInRepository() (check for the existence in the db)
+                        </aside>
+                    </section>
+                    <section>
+                        <pre class="wide"><code class="php stretch" data-trim>
+                            public function _before()
+                            {
+                                $I->haveInRepository(
+                                    User::class,
+                                    [
+                                        'username' => 'foobar',
+                                        'mail'     => 'foo.bar@example.com',
+                                        'password' => Password::encrypt('test'),
+                                    ]
+                                );
+                            }
+                        </code></pre>
+                            <aside class="notes" data-markdown>
+                                - Let's say we want to test the login for our application
+                                  - so we need a user with a password that we know to be able to test that
+                                - That's why we have this _before method here
+                                  - where we insert a new User into our database
+                                - Since we are usind the Doctrine module for this
+                                  - it automatically wraps those SQL statements inside of a transaction
+                                  - and rolls it back after each test
+                                  - at least that's the default setting, you can also deactivate that if you like
+                            </aside>
+                        </section>
+                    <section>
+                        <pre class="wide"><code class="php stretch" data-trim>
+                            /**
+                             * @example ["foobar", "test"]
+                             * @example ["foo.bar@example.com", "test"]
+                             */
+                            public function testLogin(FunctionalTester $I, Example $example)
+                            {
+                                $I->amOnPage('/');
+                                $I->seeResponseCodeIs(HttpCode::OK);
+                                $I->seeCurrentRouteIs('login');
+
+                                $I->submitForm(
+                                    'login',
+                                    [
+                                        '_username' => $example[0],
+                                        '_password' => $example[1],
+                                    ]
+                                );
+
+                                $I->seeResponseCodeIs(HttpCode::OK);
+                                $I->see('Hello foobar!');
+                                $I->see('Logout');
+                            }
+                        </code></pre>
+                        <aside class="notes" data-markdown>
+                            - So we have our user in the DB, so lets test the login
+                            - go to / -> get redirected to login route
+                            - test our login form with the user name and mail address
+                            - check the response code and that we got forwarded to the homepage
+                              - also check for 'logout' to see if we are logged in
+                        </aside>
+                    </section>
+                </section>
+                <section>
+                    <section>
+                        <h2><nobr><code class="php">AcceptanceTester $I</code></nobr></h2>
+                        <ul class="stretch">
+                            <li><pre><code class="php">$I->wantTo('click around in the browser')</code></pre></li>
+                            <li class="fragment">frontend tests
+                                <ul>
+                                    <li class="fragment">selenium integration</li>
+                                    <li class="fragment">test AJAX calls / JS</li>
+                                    <li class="fragment">...</li>
+                                </ul>
+                            </li>
+                            <li class="fragment">can get really slow</li>
+                            <li class="fragment">running webserver required</li>
+                        </ul>
+                        <br><br>
+                        <aside class="notes" data-markdown>
+                            - $I->wantTo('click around in a browser')
+                            - -> check the behaviour of your web application frontend
+                            - -> uses selenium which uses a real browser (firefox/chrome) in the background
+                              - if an error occurs, it saves a screenshot!
+                              - also pretty handy for debugging
+                              - selenium could be a complete talk on its own!
+                            - click on buttons, fill out and submit forms
+                            - -> test all those AJAX calls and JS stuff
+                            - -> ...
+                            - -> those tests can get really slow as you sometimes have to wait for AJAX
+                              calls to return or JS transitions to happen before you can go on with the
+                              test/assertion
+                            - -> since a real browser will access your application
+                              - a webserver needs to run for those tests
+                        </aside>
+                    </section>
+                    <section>
+                        <pre class="wide"><code class="php stretch" data-trim>
+                            /**
+                             * @example ["https://google.com"]
+                             * @example ["https://duckduckgo.com"]
+                             */
+                            public function testSearchForCodeception(
+                                AcceptanceTester $I,
+                                Example $example
+                            )
+                            {
+                                $I->amOnUrl($example[0]);
+
+                                $I->fillField(['name' => 'q'], 'Codeception');
+                                $I->pressKey(['name' => 'q'], WebDriverKeys::ENTER);
+
+                                $I->see('Codeception', 'a');
+                                $I->seeElement('a', ['href' => 'https://codeception.com/']);
+                            }
+                        </code></pre>
+                    </section>
+                    <section>
+                        <video style="max-width: 100%; max-height: 100%" controls muted>
+                            <source src="videos/codeception-selenium.ogv">
+                            <source src="videos/codeception-selenium.webm">
+                        </video>
+                        Codeception + Selenium + VNC
+                    </section>
+                </section>
+                <section>
+                    <section>
+                        <h2><nobr><code class="php">ApiTester $I</code></nobr></h2>
+                        <ul class="stretch">
+                            <li><pre><code class="php">$I->wantTo('send HTTP requests to the API')</code></pre></li>
+                            <li class="fragment">'REST' module
+                                <ul>
+                                    <li class="fragment">check HTTP response codes</li>
+                                    <li class="fragment">check JSON</li>
+                                    <li class="fragment">grab response and perform custom assertions</li>
+                                    <li class="fragment">...</li>
+                                </ul>
+                            </li>
+                            <li class="fragment">runs quite fast</li>
+                            <li class="fragment">running webserver required</li>
+                        </ul>
+                        <br><br>
+                        <aside class="notes" data-markdown>
+                            - $I->wantTo('send HTTP requests to your API')
+                            - send requests to your API and make assertions against the responses
+                            - -> use the 'REST' module of Codeception to test your API endpoints
+                            - also comes with some helper methods for checking
+                              - -> HTTP response codes
+                              - -> or JSON data
+                              - -> or you can just grab the complete response or the headers and
+                                perform custom assertions on that
+                              - -> ...
+                            - -> those tests are normally also quite fast
+                              - since it only has to do some API calls
+                            - -> webserver required
+                        </aside>
+                    </section>
+                    <section>
+                        <pre class="wide"><code class="php stretch" data-trim>
+                            /**
+                             * @example ["de", "Germany"]
+                             * @example ["us", "United States of America"]
+                             */
+                            public function testCountrySearchByISOAlpha2(
+                                ApiTester $I,
+                                Example $example
+                            ) {
+                                $I->sendGET(
+                                    'https://restcountries.eu/rest/v2/alpha/'.$example[0]
+                                );
+
+                                $I->seeResponseCodeIs(HttpCode::OK);
+                                $I->seeResponseIsJson();
+
+                                $I->seeResponseMatchesJsonType([
+                                    'name' => 'string',
+                                    'population' => 'integer',
+                                ]);
+
+                                $I->seeResponseContainsJson([
+                                    'name' => $example[1]
+                                ]);
+                            }
+                        </code></pre>
+                    </section>
+                    <section>
+                        <pre class="wide"><code class="php stretch" data-trim>
+                            public function testErrorOnInvalidISOAlpha2(ApiTester $I)
+                            {
+                                $I->sendGET('/alpha/xyz');
+
+                                $I->seeResponseCodeIs(HttpCode::NOT_FOUND);
+
+                                $response = json_decode($I->grabResponse(), true);
+                                $I->assertEquals('Not Found', $response['message']);
+
+                                codecept_debug($response);
+                            }
+                        </code></pre>
+                        <pre class="wide fragment"><code class="php stretch" data-trim>
+                            public function testErrorOnPost(ApiTester $I)
+                            {
+                                $I->haveHttpHeader('Content-Type', 'application/json');
+
+                                $I->sendPOST('/alpha/de', ['nope' => 'nope']);
+
+                                $I->seeResponseCodeIs(HttpCode::METHOD_NOT_ALLOWED);
+                            }
+                        </code></pre>
+                    </section>
+                </section>
+                <section>
+                    <section>
+                        <h2>Want to know how to get all this?</h2>
+                        <img src="images/give_me_that.gif" alt="Give me that!">
+                        <aside class="notes" data-markdown>
+                            - so I hope you are not all a bit hyped about Codeception and want to use it
+                            - but let's start simple
+                              - and go through it step by step
+                        </aside>
+                    </section>
+                    <section>
+                        <h2>First steps</h2>
+                        Install Codeception:<br>
+                        <pre><code class="shell stretch">$ composer require --dev codeception/codeception</code></pre>
+                        <div class="fragment">
+                            Initialize Codeception:<br>
+                            <pre><code class="shell stretch">$ vendor/bin/codecept bootstrap</code></pre>
+                        </div>
+                        <aside class="notes" data-markdown>
+                            - composer require --dev codeception/codeception
+                              - you can also download the phar archive if you prefer that
+                            - vendor/bin/codecept
+                              - codecept list
+                              - codecept help bootstrap
+                            - -> codecept bootstrap
+                        </aside>
+                    </section>
+                    <section>
+                        <h2>After Bootstrap</h2>
+                        <img src="images/codeception_bootstrap.png" class="stretch" alt="codecept bootstrap creates some files/folders">
+                        <aside class="notes" data-markdown>
+                            - basic Codeception setup
+                              - tests dir
+                                - _data -> sql dump
+                                - _output -> logging / coverage
+                                - _support -> helper classes etc.
+                              - test suites
+                                - directories for tests
+                                - configs
+                              - codeception.yml
+                        </aside>
+                    </section>
+                    <section>
+                        <pre class="wide"><code class="yaml stretch" data-trim>
+                            paths:
+                                tests: tests
+                                output: tests/_output
+                                data: tests/_data
+                                support: tests/_support
+                                envs: tests/_envs
+                            actor_suffix: Tester
+                            extensions:
+                                enabled:
+                                    - Codeception\Extension\RunFailed
+                        </code></pre>
+                        <p>codeception.yml</p>
+                    </section>
+                    <section>
+                        <pre class="wide"><code class="yaml stretch" data-trim>
+                            # Codeception Test Suite Configuration
+                            #
+                            # Suite for unit or integration tests.
+
+                            actor: UnitTester
+                            modules:
+                                enabled:
+                                    - Asserts
+                                    - \Helper\Unit
+                        </code></pre>
+                        <p>tests/unit.suite.yml</p>
+                    </section>
+                    <section>
+                        <h2>What about API tests?</h2>
+                        Generate an api test suite:<br>
+                        <pre class="wide fragment fade-out"><code class="shell stretch">$ vendor/bin/codecept generate:suite api</code></pre>
+                        <pre class="wide fragment fade-up"><code class="shell stretch" data-trim>
+                            $ vendor/bin/codecept generate:suite api
+                            Helper \Helper\Api was created in ~/example/tests/_support/Helper/Api.php
+                            Actor ApiTester was created in ~/example/tests/_support/ApiTester.php
+                            Suite config api.suite.yml was created.
+
+                            Next steps:
+                            1. Edit api.suite.yml to enable modules for this suite
+                            2. Create first test with generate:cest testName ( or test|cept) command
+                            3. Run tests of this suite with codecept run api command
+                            Suite api generated
+                        </code></pre>
+                        <aside class="notes" data-markdown>
+                            - codecept build already generated some suites for us
+                            - vendor/bin/codecept generate:suite api
+                            - -> let's check the output
+                            - -> so it created some helper and tester files
+                            - and a config file
+                            - next steps:
+                              - edit config
+                              - create a test
+                                - as it says, there are different test formats which we will take a look at later
+                              - run the tests
+                            - so let's take a look at these steps one by one
+                        </aside>
+                    </section>
+                </section>
+                <section>
+                    <section data-transition="none">
+                        <h2>Step 1: enable modules</h2>
+                        <pre class="wide"><code class="yaml stretch" data-trim data-noescape>
+                            actor: ApiTester
+                            modules:
+                                enabled:
+                                    - \Helper\Api
+                                    <span class="fragment">- Asserts</span>
+                                    <span class="fragment">- REST:
+                                        url: https://restcountries.eu/rest/v2
+                                        depends: PhpBrowser
+                                        part: Json</span>
+                            <br>
+                        </code></pre>
+                        <p>tests/api.suite.yml</p>
+                        <div class="fragment">
+                            Important: rebuild the actors/testers!<br>
+                            <pre class="wide"><code class="shell stretch">$ vendor/bin/codecept build</code></pre>
+                        </div>
+                        <aside class="notes" data-markdown>
+                            - In the api test example I've shown we used some assertions
+                              - -> let's enable the assert module
+                            - -> since we want to test an API, also include the REST module
+                              - we give it an URL to test against
+                                - can also be just localhost or the hostname of a docker container
+                              - those tests are performed using PhpBrowser
+                              - and since we are dealing with a JSON api
+                                - we directly tell Codeception that it just needs to care about JSON
+                            - -> after enabling additional modules
+                              - always remember to rebuild the testers
+                        </aside>
+                    </section>
+                    <section data-transition="none">
+                        <h2>Step 1: enable modules</h2>
+                        <pre class="wide"><code class="yaml stretch" data-trim data-noescape>
+                            actor: FunctionalTester
+                            modules:
+                                enabled:
+                                    - \Helper\Functional
+                                    - Asserts
+                                    <span class="fragment">- Symfony:
+                                        app_path: 'src'
+                                        environment: 'test'</span>
+                                    <span class="fragment">- Doctrine2:
+                                        depends: Symfony</span>
+                        </code></pre>
+                        <p>tests/functional.suite.yml</p>
+                        <div class="fragment">
+                            Remember:<br>
+                            <pre class="wide"><code class="shell stretch">$ vendor/bin/codecept build</code></pre>
+                        </div>
+                        <aside class="notes" data-markdown>
+                            - for our functional tests we also enable the Asserts module
+                            - now let's assume we are using Symfony in our application
+                            - -> this is how you could enable the Symfony module
+                              - for Symfony, the parameters are different between the major Symfony versions
+                                - but since it's all well documented you can just look it up
+                                - config for sf 4
+                                  - app_path: where the Kernel is located
+                                  - environment: symfony env to use
+                            - -> since we are using Symfony, we probably also want the Doctrine module
+                              - we just need to specify that it depends on Symfony
+                                - and it will get the entity manager from Symfony
+                              - alternatively we could also give it a callback that returns the entity manager
+                            - -> always remember to rebuild the testers
+                        </aside>
+                    </section>
+                </section>
+                <section>
+                    <section>
+                        <h2>Step 2: types of test files</h2>
+                        <ul>
+                            <li class="fragment fade-in-then-semi-out">Test
+                                <ul>
+                                    <li>basically PHPUnit</li>
+                                    <li>with some Codeception stuff around</li>
+                                </ul>
+                            </li>
+                            <li class="fragment fade-in-then-semi-out">Cept
+                                <ul>
+                                    <li>one file per test/scenario</li>
+                                </ul>
+                            </li>
+                            <li class="fragment">Cest (recommended)
+                                <ul>
+                                    <li>object oriented version of Cept</li>
+                                    <li>one test file per class/unit</li>
+                                    <li>before/after hooks etc.</li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <aside class="notes" data-markdown>
+                            - We now have set up Codeception and configured our test suites
+                            - so start writing tests, first we need to generate the test file
+                            - there are different types
+                              - -> Test: phpunit + Codeception stuff around
+                              - -> Cept
+                                - own test format of Codeception
+                                - simple PHP file with no methods or classes
+                                - one test file per test/scenario
+                                - might get flagged as deprecated in next Codeception version
+                              - -> Cest (Codeception + Test), recommended
+                                - object oriented version of Cept
+                                  - so basically it's a class
+                                  - with separate methods for each test
+                                - before and after hooks
+                                - you can also add some private methods if you feel the need for it
+                        </aside>
+                    </section>
+                    <section>
+                        <h2>Step 2: create Cest test files</h2>
+                        <pre class="wide"><code class="shell stretch">$ vendor/bin/codecept generate:cest suite class</code></pre>
+                        <pre class="wide fragment"><code class="shell stretch">$ vendor/bin/codecept generate:cest unit "App\MyMailHelper"</code></pre>
+                        <pre class="wide fragment"><code class="shell stretch">$ vendor/bin/codecept generate:cest functional Controller/LoginCest.php</code></pre>
+                        <pre class="wide fragment"><code class="shell stretch">$ vendor/bin/codecept generate:cest acceptance Login</code></pre>
+                        <pre class="wide fragment"><code class="php stretch" data-trim>
+                            class LoginCest
+                            {
+                                public function _before(AcceptanceTester $I)
+                                {
+                                }
+
+                                // tests
+                                public function tryToTest(AcceptanceTester $I)
+                                {
+                                }
+                            }
+
+                        </code></pre>
+                        <aside class="notes" data-markdown>
+                            - create test files via codecept generate:cest suite class
+                            - -> with Fully Qualified Class Name
+                            - -> path of the Cest file relative to the suite
+                            - -> or just a name for the test if it's not directly related to one class
+                            - -> example for the last command
+                              - _before: e.g. for setting up the class to test before each test
+                              - our familiar Tester $I
+                        </aside>
+                    </section>
+                </section>
+                <section>
+                    <h2>Interlude: TDD buzzword bingo</h2>
+                    <ul>
+                        <li class="fragment">red &#8658; green &#8658; refactor</li>
+                        <li class="fragment">baby steps / YAGNI</li>
+                        <li class="fragment">arrange &#8658; act &#8658; assert</li>
+                        <li class="fragment">one assertion per test</li>
+                        <li class="fragment">write a test before fixing a bug</li>
+                    </ul><br><br>
+                    <p class="fragment">&#8658; code will be cleaner & simpler & easier to maintain</p>
+                    <aside class="notes" data-markdown>
+                        - you can now write tests for everything
+                        - but let's take a look at some basic techniques that you should know of
+                        - Test Driven Development
+                          - I think we already had a talk about that, just take a look at it
+                        - -> one important concept is red -> green -> refactor
+                          - write test -> write implementation -> can it be improved?
+                        - -> and work in baby steps
+                          - automatically only implement what you really need (now) / You Ain't Gonna Need It
+                        - -> AAA: order / grouping in which you should write your tests
+                        - -> one assertion per test: test only one thing at a time
+                        - -> bug? first write a test that fails -> only then begin to fix the bug
+                        - your future self will thank you because
+                          - -> the code will be cleaner, simpler and easier to maintain
+                    </aside>
+                </section>
+                <section>
+                    <section>
+                        <h2>Step 3: run tests</h2>
+                        <pre class="wide"><code class="shell stretch">$ vendor/bin/codecept run</code></pre>
+                        <pre class="wide fragment"><code class="shell stretch">$ vendor/bin/codecept run unit</code></pre>
+                        <pre class="wide fragment"><code class="shell stretch">$ vendor/bin/codecept run tests/unit/ExceptionCest.php</code></pre>
+                        <div class="fragment">
+                            Useful parameters:<br>
+                            <ul class="wide">
+                                <li>
+                                    --debug<br>
+                                    + <code class="php">codecept_debug()</code>
+                                </li>
+                                <li>--fail-fast</li>
+                                <li>-g failed</li>
+                                <li>--coverage</li>
+                            </ul>
+                        </div>
+                        <aside class="notes" data-markdown>
+                            - now let's run all those tests
+                            - -> or just run one suite
+                            - -> or maybe even just one test
+                            - -> some useful parameters
+                              - debug mode: add debug output to your tests which you will only see in debug mode
+                              - fail fast: directly exit on the first failing test
+                              - -g failed: just rerun the tests that failed on the last run
+                                - provided by the extension RunFailed which is enabled by default
+                              - coverage: let Codeception check which codelines you are covering with the tests
+                        </aside>
+                    </section>
+                    <section data-background="images/codecept_run_example.png" data-background-size="auto 95%"></section>
+                </section>
+                <section>
+                    <section>
+                        <h2>Configure code coverage report</h2>
+                        <pre class="wide"><code class="yaml stretch" data-trim data-noescape>
+                            [...]
+
+                            coverage:
+                                enabled: true
+                                include:
+                                    - src/*
+                        </code></pre>
+                        <p>codeception.yml</p><br>
+                        Hint: you also need to enable Xdebug
+                    </section>
+                    <section>
+                        <h2>Check code coverage</h2>
+                        <pre class="wide"><code class="shell stretch">$ vendor/bin/codecept run --coverage --coverage-html --coverage-xml</code></pre>
+                        <ul>
+                            <li>HTML report: nicely rendered version for viewing in a browser</li>
+                            <li>XML report: for usage via other tools (PhpStorm, codecov.io, ...)</li>
+                        </ul>
+                    </section>
+                    <section data-background="images/coverage_html.png" data-background-size="95% auto"></section>
+                    <section data-background="images/coverage_xml_codecov.png" data-background-size="auto 95%"></section>
+                </section>
+                <section>
+                    <section>
+                        <h2>Get bonus points for</h2>
+                        <ul>
+                            <li>setting up Codeception in your IDE
+                                <ul>
+                                    <li>to automatically rerun tests on changes</li>
+                                    <li>or have a shortcut for running the tests</li>
+                                </ul>
+                            </li>
+                            <li class="fragment">configuring a job in your CI pipeline to
+                                <ul>
+                                    <li>run tests</li>
+                                    <li>check coverage</li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <aside class="notes" data-markdown>
+                            - IDE integration
+                              - run tests automatically
+                              - or on shortcut
+                              - PhpStorm recently got Codeception support
+                                - with inline coverage report
+                            - -> CI pipeline
+                              - run tests
+                              - check coverage
+                              - e.g. GitLab-CI
+                                - with a regex to parse the coverage % out of the log
+                              - or if you are on github you can use e.g. Travis-CI
+                                - send the XML coverage report to codecov.io
+                        </aside>
+                    </section>
+                    <section>
+                        <img src="images/green_ci.png" alt="successful CI pipeline run">
+                        <aside class="notes" data-markdown>
+                            - just remember that a high % in code coverage isn't all
+                            - and even if the CI is green there may be bugs
+                        </aside>
+                    </section>
+                </section>
+                <section>
+                    <section>
+                        <h2>Codeception is ...</h2>
+                        <ul>
+                            <li>easy to setup</li>
+                            <li>simple by default</li>
+                            <li>configurable/extendable</li>
+                            <li>fun to use</li>
+                        </ul>
+                        <aside class="notes" data-markdown>
+                            - To sum up
+                              - Codeception is easy to setup
+                              - and also simple by default
+                              - but also configurable and even extendable to handle more complicated tasks
+                                - remember it's all PHP so you can dive right into it if you like
+                            - and we only just scratched the surface with these examples
+                              - there is much more to explore
+                            - it's just fun to use
+                            - If you didn't have tests at all until now: just give it a try
+                              - you will thank yourself later when you are trying to figure out this
+                                nasty little bug
+                              - and you finally found it and the CI pipeline turns green and you know
+                                that everything is fine again
+                        </aside>
+                    </section>
+                    <section>
+                        <img src="images/that_feeling_green_ci.jpg" alt="That feeling when the CI turns green">
+                    </section>
+                </section>
+                <section data-background="images/codeception_homepage.png">
+                    <p style="padding-top: 45%">
+                        <span><img src="images/GitHub-Mark-Light-120px-plus.png" class="text-logo" alt="GitHub"> Codeception/Codeception</span><br>
+                        <span><img src="images/codeception-small.png" class="text-logo" alt="Codeception"> codeception.com</span><br>
+                        <span><img src="images/Twitter_Social_Icon_Circle_White.png" class="text-logo" alt="Twitter"> @codeception</span>
+                    </p>
+                    <aside class="notes" data-markdown>
+                        - so that is Codeception
+                        - any questions?
+                    </aside>
+                </section>
+                <section>
+                    <h3>Challenge: Let's roll</h3>
+                    <ul class="wide">
+                        <li><b>Dice</b>: <b>roll()</b> &#8658; random int 1-6</li>
+                        <li><b>Game(array $dice)</b>: <b>score()</b> &#8658; roll all 6 Dice + calc. score</li>
+                    </ul>
+                    <h4>rules</h4>
+                    <ul class="wide">
+                        <li><b>a single one</b>: 100 points / <b>a single five</b>: 50 points</li>
+                        <li><b>three of a kind</b>: 100 x rolled number
+                            <ul>
+                                <li>except for <b>three ones</b>: 1000 points</li>
+                                <li>for <b>each additional of that kind</b>: double the score</li>
+                            </ul>
+                        </li>
+                        <li><b>three pairs</b>: 800 points</li>
+                        <li><b>straight</b>: 1200 points</li>
+                    </ul>
+                    <b>Hints:</b> codecept bootstrap/g:cest/run, Stub + Stub\Expected, Example, $I->expectThrowable()
+                    <aside class="notes" data-markdown>
+                        - Alright, then let's get our hands dirty and write some code
+                        - simple version of a dice game called greed
+                        - class dice -> roll
+                        - class game
+                          - constructor: array of dice, normally you play the game with 6 six sided dice
+                          - method score
+                        - rules
+                          - 1 -> 100p / 5 -> 50p
+                          - 3x $x -> 100p x $x
+                            - $x == 1 -> 1000p
+                            - for each additional: double the score
+                          - 3 pairs -> 800p
+                          - straight -> 1200p
+                        - you basically roll all dice and then try to make the highest score out of them
+                          - but don't count a die twice
+                    </aside>
+                </section>
+            </div>
+        </div>
+
+        <script src="lib/js/head.min.js"></script>
+        <script src="js/reveal.js"></script>
+
+        <script>
+            // More info about config & dependencies:
+            // - https://github.com/hakimel/reveal.js#configuration
+            // - https://github.com/hakimel/reveal.js#dependencies
+            Reveal.initialize({
+                controls: true,
+                progress: true,
+                history: true,
+                center: true,
+                fragmentInURL: true,
+                dependencies: [
+                    { src: 'plugin/markdown/marked.js' },
+                    { src: 'plugin/markdown/markdown.js' },
+                    { src: 'plugin/notes/notes.js', async: true },
+                    { src: 'plugin/highlight/highlight.js', async: true }
+                ]
+            });
+        </script>
+    </body>
 </html>

@@ -1,0 +1,16 @@
+section > ul {
+    width: 75%;
+}
+
+section > p > span > img.text-logo {
+    height: 1em;
+    vertical-align: middle;
+    border: 0;
+    background: 0;
+    box-shadow: none;
+    padding-right: 8px;
+}
+
+section > pre.wide, section ul.wide {
+    width: 100% !important;
+}
