@@ -12,6 +12,7 @@ class RestCountriesCest
     public function testCountrySearchByISOAlpha2(ApiTester $I, Example $example): void
     {
         $I->sendGET('/alpha/'.$example[0]);
+        $I->pause();
 
         $I->seeResponseCodeIs(HttpCode::OK);
         $I->seeResponseIsJson();
