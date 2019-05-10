@@ -2,7 +2,7 @@ Codeception Talk
 ================
 
 This repo contains some slides for an introduction to Codeception which
-you can find under [`/slides`](/slides). In these slides there are some example
+you can find under [`/docs`](/docs). In these slides there are some example
 tests. Under [`/example`](/example) you can find a sample project with a working
 Codeception setup including those tests from the talk.
 
